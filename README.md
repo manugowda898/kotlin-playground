@@ -1,60 +1,23 @@
-[![official JetBrains project](http://jb.gg/badges/official-plastic.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
-[![NPM version](https://img.shields.io/npm/v/kotlin-playground.svg)](https://www.npmjs.com/package/kotlin-playground)
+// In your build.gradle: implementation("io.coil-kt:coil-compose:2.5.0")
 
-# Kotlin Playground
-
-Component that creates Kotlin-aware editors capable of running code from HTML block elements.
-
-[Examples](https://jetbrains.github.io/kotlin-playground/examples/)
-
-## Installation
-
-### Use our CDN
-
-Insert a `<script>` element into your page and specify what elements should be converted in its `data-selector` attribute.
-
-```html
-<script src="https://unpkg.com/kotlin-playground@1" data-selector="code"></script>
-```
-
-Or, if you need to separate process of loading/conversion, omit the `data-selector` attribute and use a second `<script>` element like this:
-
-```html
-<script src="https://unpkg.com/kotlin-playground@1"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  KotlinPlayground('.code-blocks-selector');
-});
-</script>
-```
-
-You can also overwrite the server where the code will be sent to be compiled and analyzed (for example if you host a server instance that includes your own Kotlin libraries). For that you can set the `data-server` attribute.
-
-And you can also set a default Kotlin version for code snippets to run on. Bear in mind that the [version set per editor](#customizing-editors) will take precedence though:
-
-```html
-<script src="https://unpkg.com/kotlin-playground@1"
-        data-selector="code"
-        data-server="https://my-kotlin-playground-server"
-        data-version="1.3.41">
-</script>
-```
-
-### Host your own instance
-
-Install Kotlin-playground as dependency via NPM.
-
-```bash
-npm install kotlin-playground -S
-```
-
-And then just use it in your code.
-
-```js
-// ES5
-var playground = require('kotlin-playground');
-
+@Composable
+fun FastImageItem(imageUrl: String) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .crossfade(true) // Smooth transition looks "faster" to the user
+            .diskCachePolicy(CachePolicy.ENABLED) // Saves to phone storage
+            .memoryCachePolicy(CachePolicy.ENABLED) // Saves to RAM for instant scrolling
+            .build(),
+        contentDescription = "Optimized Image",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        contentScale = ContentScale.Crop,
+        // Shows a tiny "blur" or color while the high-res image loads
+        placeholder = painterResource(R.drawable.placeholder_blur) 
+    )
+}
 document.addEventListener('DOMContentLoaded', function() {
   playground('code'); // attach to all <code> elements
 });
